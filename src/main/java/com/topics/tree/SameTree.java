@@ -2,6 +2,8 @@ package com.topics.tree;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /*
 100. Same Tree (https://leetcode.com/problems/same-tree/description/)
@@ -41,28 +43,29 @@ public class SameTree {
 
     // 2. Iterable version
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        Deque<TreeNode> queue = new ArrayDeque<>();
-        queue.add(p);
-        queue.add(q);
+        Queue<TreeNode> fTree = new LinkedList<>();
+        Queue<TreeNode> sTree = new LinkedList<>();
+        fTree.add(p);
+        sTree.add(q);
 
-        while (!queue.isEmpty()) {
-            p = queue.poll();
-            q = queue.poll();
+        while (!fTree.isEmpty()) {
+            p = fTree.poll();
+            q = sTree.poll();
 
 
             if (p == null && q == null) continue;
             if (p == null || q == null) return false;
             if (p.val != q.val) return false;
 
-            queue.add(p.left);
-            queue.add(q.left);
-            queue.add(p.right);
-            queue.add(q.right);
+            fTree.add(p.left);
+            sTree.add(q.left);
+            fTree.add(p.right);
+            sTree.add(q.right);
         }
         return true;
     }
 
-    private class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
